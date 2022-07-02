@@ -16,34 +16,34 @@ You need to have Vim/NeoVim with Python3 support
 
 ### Installing
 #### [Vim-Plug](https://github.com/junegunn/vim-plug)
-1. Add `Plug 'vimsence/vimsence'` to your vimrc file.
+1. Add `Plug 'LostPy/vimsence'` to your vimrc file.
 2. Reload your vimrc or restart
 3. Run `:PlugInstall`
 
 #### [Vundle](https://github.com/VundleVim/Vundle.vim) or similar
-1. Add `Plugin 'vimsence/vimsence'` to your vimrc file.
+1. Add `Plugin 'LostPy/vimsence'` to your vimrc file.
 2. Reload your vimrc or restart
 3. Run `:BundleInstall`
 
 #### [NeoBundle](https://github.com/Shougo/neobundle.vim)
-1. Add `NeoBundle 'vimsence/vimsence'` to your vimrc file.
+1. Add `NeoBundle 'LostPy/vimsence'` to your vimrc file.
 2. Reload your vimrc or restart
 3. Run `:NeoUpdate`
 
 #### [Dein.vim](https://github.com/Shougo/dein.vim)
-1. Add `call dein#add('vimsence/vimsence')` to your vimrc file.
+1. Add `call dein#add('LostPy/vimsence')` to your vimrc file.
 2. Reload your vimrc or restart
 3. Run `:call dein#install()`
 
 #### [Pathogen](https://github.com/tpope/vim-pathogen)
 ```sh
 cd ~/.vim/bundle
-git clone https://github.com/vimsence/vimsence.git
+git clone https://github.com/LostPy/vimsence.git
 ```
 
 #### Vim8 packages
 ```sh
-git submodule add https://github.com/vimsence/vimsence.git vimsence
+git submodule add https://github.com/LostPy/vimsence.git vimsence
 ```
 
 ## Configuration
