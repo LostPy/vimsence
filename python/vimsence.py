@@ -111,6 +111,10 @@ def update_presence():
         else:
             ignored_directories = []
 
+    git_remote_name = 'origin'
+    if vim.eval('exists("g:vimsence_git_remote_name")') == '1':
+        git_remote_name = vim.eval('g:vimsence_git_remote_name')
+
     activity = base_activity
 
     large_image = ''
@@ -121,6 +125,7 @@ def update_presence():
     filename = get_filename()
     directory = get_directory()
     filetype = get_filetype()
+    git_info = get_git_info(git_remote_name)
 
     editing_text = 'Editing a {} file'
     if vim.eval('exists("g:vimsence_editing_large_text")') == '1':
@@ -130,7 +135,10 @@ def update_presence():
     if vim.eval('exists("g:vimsence_editing_state")') == '1':
         editing_state = vim.eval('g:vimsence_editing_state')
 
-    state = editing_state.format(directory)
+    if git_info:
+        state = editing_state.format(git_info['dir_name'])
+    else:
+        state = editing_state.format(directory)
 
     editing_details = 'Editing {}'
     if vim.eval('exists("g:vimsence_editing_details")') == '1':
@@ -261,3 +269,42 @@ def get_directory():
     '''
 
     return re.split(r'[\\/]', vim.eval('getcwd()'))[-1]
+
+
+def get_dir_path():
+    '''Get absolute path of current dir
+    :return: string
+    '''
+    return vim.eval('getcwd()').strip().replace('\\ ', ' ').replace('\\', '/')
+
+    
+def get_git_info(git_remote_name: str = 'origin'):
+    '''This funtion return a Git Repo link and the Repo dir name in a dict
+    else return None if it is not able to extract the Repo Url.
+
+    dict result format:
+    {
+        'url': '<git remote url>',
+        'dir_name': '<directory name>'
+    }
+    '''
+
+    dir_path = get_dir_path()
+    current_dir = os.path.abspath(os.getcwd())
+
+    os.chdir(dir_path)
+
+    url = os.popen(f'git config --get remote.{git_remote_name}.url').read().strip()
+    if len(url) == 0:
+        url = None
+    elif url.endswith('.git'):
+        url = url[:-4]
+
+    dir_name = os.path.basename(os.popen(
+        'git rev-parse --show-toplevel').read().strip())
+    if len(dir_name) == 0:
+        dir_name = None
+
+    os.chdir(current_dir)
+    return {'url': url, 'dir_name': dir_name} if url and dir_name else None
+
